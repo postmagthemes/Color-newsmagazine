@@ -6,6 +6,7 @@ if(get_theme_mod('color_newsmagazine_block_5_enable','0') == 1):
 	dynamic_sidebar( 'advertisement_bar-'.get_theme_mod('color_newsmagazine_block_5_google','0') );
 
 	function color_newsmagazine_block_5_enable() {
+	if (color_newsmagazine_all_categories() != null) { // if there is no post then no category 
 	?>
 	<section class="news-column section animated wow fadeInUp" data-wow-duration="2s"  >
 		<div class="container">
@@ -98,7 +99,7 @@ if(get_theme_mod('color_newsmagazine_block_5_enable','0') == 1):
 			</div>
 		</div>
 	</section>
-<?php 
+<?php }
 }
 color_newsmagazine_block_5_enable();
 endif;?>				

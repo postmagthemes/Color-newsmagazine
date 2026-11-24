@@ -2,6 +2,7 @@
 
 if(get_theme_mod('color_newsmagazine_mainnews_total_enable','1')):
 	function color_newsmagazine_main_news(){ 
+	if (color_newsmagazine_all_categories() != null) { // if there is no post then no category 
 	
 	$newcolor1= hexdec(substr(get_theme_mod('color_newsmagazine_theme_color_setting','#dd3333'), 1));  /** convert to hex without # */
 	global $color_newsmagazine_currenttime1;
@@ -251,6 +252,7 @@ if(get_theme_mod('color_newsmagazine_mainnews_total_enable','1')):
 		</div>
 	</section>
 <?php }
+	}
 color_newsmagazine_main_news();
 endif;?>
 

@@ -3,7 +3,10 @@ if (get_theme_mod('color_newsmagazine_blog_archive_layout_enable','1') == 1 ):
 
     dynamic_sidebar( 'advertisement_bar-'.get_theme_mod('color_newsmagazine_block_archive_options_section_google','0') );
 
-    function color_newsmagazine_main_blog(){ ?>
+    function color_newsmagazine_main_blog(){ 
+    if (color_newsmagazine_all_categories() != null) { // if there is no post then no category 
+
+        ?>
         <section id = "blog" class="section">
             <div class ="container ">
                 <?php if (get_theme_mod('color_newsmagazine_blog_archive_title') != null) { ?>
@@ -60,5 +63,6 @@ if (get_theme_mod('color_newsmagazine_blog_archive_layout_enable','1') == 1 ):
             </div>
         </section>
     <?php }
+    }
     color_newsmagazine_main_blog();
 endif;

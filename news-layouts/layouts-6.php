@@ -17,10 +17,7 @@ if(get_theme_mod('color_newsmagazine_block_6_enable','0') == '1'):
 		// Added featured 
 		$post_read_enable = get_theme_mod('color_newsmagazine_block_6_post_read_enable','0');
 		$post_time_enable = get_theme_mod('color_newsmagazine_block_6_post_time_enable','0');
-		?>
-
-		<section class="<?php if ($title == Null )  { echo 'pt-5' ;} ?> news-carousel section dark" >
-			<?php
+		
 			$arguments = array(
 				'category_name'	=> esc_attr( $cat ),
 				'posts_per_page' => absint( $post_no ),
@@ -30,7 +27,8 @@ if(get_theme_mod('color_newsmagazine_block_6_enable','0') == '1'):
 			);
 			$query = new WP_Query( $arguments );
 			if( $query->have_posts() ) :
-				?>
+			?>
+			<section class="<?php if ($title == Null )  { echo 'pt-5' ;} ?> news-carousel section dark" >
 				<div class="container">
 					<div class="row">
 						<div class="col-lg-12 position-initial ">
@@ -101,11 +99,9 @@ if(get_theme_mod('color_newsmagazine_block_6_enable','0') == '1'):
 						</div>
 					</div>
 				</div>
-				<?php
-			endif;
+			</section>
+			<?php endif;
 			wp_reset_postdata();
-			?>
-		</section>
-	<?php }
+		}
 	color_newsmagazine_block_6_enable();
 endif;?>

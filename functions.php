@@ -25,7 +25,7 @@ if ( ! function_exists( 'color_newsmagazine_setup' ) ) :
 		 * If you're building a theme based on Color newsmagazine, use a find and replace
 		 * to change 'color-newsmagazine' to the name of your theme in all the template files.
 		 */
-		load_theme_textdomain( 'color-newsmagazine');
+		// load_theme_textdomain( 'color-newsmagazine');
 
 		// Add default posts and comments RSS feed links to head.
 		add_theme_support( 'automatic-feed-links' );
@@ -116,6 +116,12 @@ if ( ! function_exists( 'color_newsmagazine_setup' ) ) :
 endif;
 add_action( 'after_setup_theme', 'color_newsmagazine_setup' );
 
+// Hook load_theme_textdomain() to the init action
+function color_newsmagazine_load_textdomain() {
+    		load_theme_textdomain( 'color-newsmagazine');
+}
+add_action( 'init', 'color_newsmagazine_load_textdomain' );
+
 /**
  * Set the content width in pixels, based on the theme's design and stylesheet.
  *
@@ -179,46 +185,49 @@ function color_newsmagazine_widgets_init() {
 }
 add_action( 'widgets_init', 'color_newsmagazine_widgets_init' );
 
-/**
- * Enqueue scripts and styles.
- */
-require get_template_directory() . '/inc/enqueue.php';
-
-/**
- * Implement the Custom Header feature.
- */
-require get_template_directory() . '/inc/custom-header.php';
-
-/**
- * Custom template tags for this theme.
- */
-require get_template_directory() . '/inc/template-tags.php';
-
+function context_blog_load_template_files() {
 /**
  * Functions which enhance the theme by hooking into WordPress.
  */
 require get_template_directory() . '/inc/template-functions.php';
 
+}
+add_action( 'init', 'context_blog_load_template_files' );
+
 /**
  * Customizer additions.
  */
 require get_template_directory() . '/inc/customizer/customizer.php';
-
-
-/**
- * Bootstrap Navwalker.
- */
-require get_template_directory() . '/inc/wp-bootstrap-navwalker.php';
-
-
-/**
-* Breadcrumbs.
-*/
-require_once get_template_directory() . '/inc/breadcrumbs.php';
-
 /**
 * Filters
 */
 require_once get_template_directory() . '/inc/filters.php';
 
 require_once get_template_directory() . '/inc/upgrade-to-pro/control.php';
+/**
+* Breadcrumbs.
+*/
+require_once get_template_directory() . '/inc/breadcrumbs.php';
+/**
+ * Bootstrap Navwalker.
+ */
+require get_template_directory() . '/inc/wp-bootstrap-navwalker.php';
+/**
+ * Custom template tags for this theme.
+ */
+require get_template_directory() . '/inc/template-tags.php';
+/**
+ * Enqueue scripts and styles.
+ */
+require get_template_directory() . '/inc/enqueue.php';
+/**
+ * Implement the Custom Header feature.
+ */
+require get_template_directory() . '/inc/custom-header.php';
+
+/**
+ * Review request on the Dashboard (WordPress.org).
+ */
+if ( is_admin() ) {
+	require_once trailingslashit( get_template_directory() ) . 'inc/review-notice.php';
+}

@@ -37,15 +37,15 @@ if( ! function_exists('color_newsmagazine_top_header_contact_info_items')):
 		$defaults =  array(
 			array(
 				'icon' => 'fa fa-map-pin',
-				'title' => __('Color NewsMagazine, New York','color-newsmagazine'),
+				'title' => __('Bnews24, New York','color-newsmagazine'),
 			),
 			array(
 				'icon' => 'fa fa-calendar',
-				'title' => __('November 20, 2018','color-newsmagazine'),
+				'title' => __('Toll Free 1660-6767-8909','color-newsmagazine'),
 			),
 			array(
 				'icon' => 'fas fa-clock',
-				'title' => __('Last published, 5 minutes ago','color-newsmagazine'),
+				'title' => __('International Paper','color-newsmagazine'),
 			)
 		);
 		$contact_items = get_theme_mod( 'top_header_contact_info_items', $defaults );
@@ -447,7 +447,8 @@ if( ! function_exists( 'color_newsmagazine_all_categories' ) ) {
             'number' => '',
             'orderby'    => 'count',
             'order'      => 'ASC',
-           'hide_empty' => true
+           'hide_empty' => true,
+		   'show count' => 1,
         ) );
 
         return $all_terms;
@@ -612,3 +613,29 @@ function color_newsmagazine_newlayout1() {
 }
 add_action('wp_ajax_nopriv_color_newsmagazine_newlayout1', 'color_newsmagazine_newlayout1');
 add_action('wp_ajax_color_newsmagazine_newlayout1', 'color_newsmagazine_newlayout1');
+
+// below add extra tag in heading block at sidebar
+
+
+// Initialize the global stack for tracking block hierarchy
+
+function color_newsmagazine_heading_block($block_content, $block) {
+    global $block_stack;
+
+    // Check if the block is a heading block
+    if ($block['blockName'] === 'core/heading') {
+				$extra_tag = '<i class="fas fa-pencil-alt"> </i><span>';
+				
+				// Use a regular expression to find the heading tag and add the extra tag
+				$block_content = preg_replace_callback(
+					'/(<h[1-6][^>]*>)(.*?)(<\/h[1-6]>)/i',
+					function($matches) use ($extra_tag) {
+						return $matches[1] .$extra_tag . $matches[2] . $matches[3];
+					},
+					$block_content
+				);	
+    }
+
+    return $block_content;
+}
+add_filter('render_block', 'color_newsmagazine_heading_block', 10, 2);

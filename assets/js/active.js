@@ -807,3 +807,159 @@ event.respondWith(async function() {
 }());
 });
 
+// added for smooth scroll effect
+document.addEventListener('DOMContentLoaded', function() {
+	// Initialize Lenis
+	const lenis = new Lenis({
+	});
+  
+	function raf(time) {
+		lenis.raf(time);
+		requestAnimationFrame(raf);
+	}
+  
+	requestAnimationFrame(raf);
+	
+  });
+  // end
+
+/**
+ * Header site title reveal.
+ * On load only the first 1.5 characters of the site title are visible. While the visitor scrolls, the page stays
+ * pinned at the top and the rest of the title is uncovered from left to right. Once the whole title is
+ * visible the pin is released and the page scrolls normally. Scrolling back to the top re-pins and
+ * hides the title again (down to 1.5 characters). If the title wraps onto a second line, that line is only
+ * uncovered after the first line is completely visible.
+ */
+(function () {
+  function init() {
+    var link = document.querySelector('.header-inner .site-title a');
+    if (!link) { return; }
+
+    var scrollY = function () { return window.pageYOffset || document.documentElement.scrollTop || 0; };
+    var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var rect = link.getBoundingClientRect();
+
+    // hidden title (Customizer "display header text" off), or title below the first screen: nothing to reveal
+    if (rect.width < 5 || rect.height < 5 || rect.top > (window.innerHeight || 800) - 20) { return; }
+
+    var progress = 0;                         // 0 = 1.5 characters visible, 1 = whole title visible
+    link.classList.add('cnm-title-reveal');
+
+    // Text lines of the title as rectangles relative to the link (one per wrapped line, top to bottom)
+    function lineRects() {
+      var node = link.firstChild;
+      if (!node || node.nodeType !== 3) { return []; }
+      var range = document.createRange();
+      range.selectNodeContents(node);
+      var base = link.getBoundingClientRect(), list = range.getClientRects(), out = [];
+      for (var i = 0; i < list.length; i++) {
+        if (list[i].width < 1) { continue; }
+        out.push({ left: list[i].left - base.left, top: list[i].top - base.top, width: list[i].width, height: list[i].height });
+      }
+      return out;
+    }
+
+    // width (px) of the first 1.5 characters of the title
+    function startWidth() {
+      var node = link.firstChild;
+      if (!node || node.nodeType !== 3 || !node.nodeValue.length) { return 0; }
+      var range = document.createRange(), w = [];
+      for (var i = 0; i < 2; i++) {
+        if (i >= node.nodeValue.length) { w.push(0); continue; }
+        range.setStart(node, i);
+        range.setEnd(node, i + 1);
+        w.push(range.getBoundingClientRect().width);
+      }
+      return w[0] + w[1] / 2;
+    }
+
+    // The title is uncovered line by line: the second line only starts once the first line is completely visible.
+    function paint() {
+      if (progress >= 1) {
+        link.style.removeProperty('clip-path');
+        link.style.removeProperty('-webkit-clip-path');
+        return;
+      }
+      var lines = lineRects(), box = link.getBoundingClientRect();
+      var pad = (parseFloat(window.getComputedStyle(link).fontSize) || 16) * 0.3;
+      var total = 0, i;
+      for (i = 0; i < lines.length; i++) { total += lines[i].width; }
+      var start = Math.min(startWidth(), lines.length ? lines[0].width : 0);
+      var left = start + (total - start) * progress;      // amount of the title that is visible, in px of text
+      var d = '';
+      for (i = 0; i < lines.length; i++) {
+        var ln = lines[i], take = Math.min(Math.max(left, 0), ln.width);
+        left -= ln.width;
+        if (take <= 0) { continue; }
+        var top = i === 0 ? -pad : (lines[i - 1].top + lines[i - 1].height + ln.top) / 2;
+        var bottom = i === lines.length - 1 ? box.height + pad : (ln.top + ln.height + lines[i + 1].top) / 2;
+        var x0 = ln.left - pad, x1 = ln.left + take + (take >= ln.width ? pad : 0);
+        d += 'M' + x0.toFixed(2) + ' ' + top.toFixed(2) + 'H' + x1.toFixed(2) + 'V' + bottom.toFixed(2) + 'H' + x0.toFixed(2) + 'Z';
+      }
+      var clip = 'path("' + (d || 'M0 0Z') + '")';
+      link.style.setProperty('clip-path', clip);
+      link.style.setProperty('-webkit-clip-path', clip);
+    }
+
+    function pinDistance() { return (window.innerHeight || 800) * 0.7; } // scroll needed to show the whole title
+
+    // Consume a scroll delta. Returns true when the page must stay pinned (event is swallowed).
+    function consume(delta) {
+      if (scrollY() > 0) { return false; }
+      if ((delta > 0 && progress < 1) || (delta < 0 && progress > 0)) {
+        progress = Math.min(1, Math.max(0, progress + delta / pinDistance()));
+        paint();
+        return true;
+      }
+      return false;
+    }
+
+    // page already scrolled (reload, anchor link) or reduced motion: show the whole title, no pin
+    if (reduceMotion || scrollY() > 0) { progress = 1; }
+    paint();
+    if (reduceMotion) { return; }
+
+    window.addEventListener('resize', paint);
+    if (document.fonts && document.fonts.ready) { document.fonts.ready.then(paint); }
+    window.addEventListener('load', paint);
+
+    window.addEventListener('scroll', function () {
+      if (scrollY() > 0 && progress < 1) { progress = 1; paint(); }
+    }, { passive: true });
+
+    // capture phase on window runs before the smooth scroll (Lenis) listeners, so a swallowed event never reaches them
+    window.addEventListener('wheel', function (e) {
+      var d = e.deltaY;
+      if (e.deltaMode === 1) { d *= 16; } else if (e.deltaMode === 2) { d *= (window.innerHeight || 800); }
+      if (e.ctrlKey || !d) { return; } // pinch zoom / empty events
+      if (consume(d)) { e.preventDefault(); e.stopImmediatePropagation(); }
+    }, { passive: false, capture: true });
+
+    var touchY = null;
+    window.addEventListener('touchstart', function (e) {
+      touchY = e.touches.length === 1 ? e.touches[0].clientY : null;
+    }, { passive: true, capture: true });
+    window.addEventListener('touchmove', function (e) {
+      if (touchY === null || e.touches.length !== 1) { return; }
+      var y = e.touches[0].clientY, d = touchY - y;
+      touchY = y;
+      if (consume(d)) { if (e.cancelable) { e.preventDefault(); } e.stopImmediatePropagation(); }
+    }, { passive: false, capture: true });
+
+    window.addEventListener('keydown', function (e) {
+      if (e.ctrlKey || e.metaKey || e.altKey) { return; }
+      var t = e.target, tag = t && t.tagName ? t.tagName.toLowerCase() : '';
+      if (tag === 'input' || tag === 'textarea' || tag === 'select' || (t && t.isContentEditable)) { return; }
+      var h = window.innerHeight || 800, d = 0;
+      if (e.key === 'ArrowDown') { d = 60; }
+      else if (e.key === 'ArrowUp') { d = -60; }
+      else if (e.key === 'PageDown' || (e.key === ' ' && !e.shiftKey)) { d = h * 0.8; }
+      else if (e.key === 'PageUp' || (e.key === ' ' && e.shiftKey)) { d = -h * 0.8; }
+      else if (e.key === 'End') { progress = 1; paint(); return; } // jump to the end: show the whole title
+      if (d && consume(d)) { e.preventDefault(); e.stopImmediatePropagation(); }
+    }, { capture: true });
+  }
+
+  if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', init); } else { init(); }
+})();

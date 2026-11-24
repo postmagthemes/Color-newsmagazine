@@ -44,7 +44,6 @@ jQuery(document).ready(function() {
 
     var controlContainerSelectorArray =  [
       wp.customize.control( 'color_newsmagazine_top_header_date_enable').selector,
-      wp.customize.control( 'color_newsmagazine_top_header_right_side_enable').selector,
       wp.customize.control( 'top_header_contact_info_items').selector,
       
     ];

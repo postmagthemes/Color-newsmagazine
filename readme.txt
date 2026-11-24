@@ -3,8 +3,8 @@
 Contributors: postmagthemes
 Tags: blog, news, entertainment, grid-layout, one-column, two-columns, three-columns, left-sidebar, right-sidebar, custom-background, custom-colors, custom-header, custom-logo, custom-menu, featured-image-header, featured-images, footer-widgets, theme-options, threaded-comments
 Requires at least: 4.5
-Tested up to: 6.1.1
-Stable tag: 1.2.2
+Tested up to: 6.9
+Stable tag: 1.4.5
 Requires PHP: 5.6
 License: GNU General Public License v2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -27,10 +27,56 @@ Description: Color NewsMagazine is a free WordPress theme. It is designed to bui
 
 Color Newsmagazine includes support for postmagthemes demo import plugins.
 
+
 == Changelog ==
 
+= 1.4.5 november 23 2026
+* Header site title: the first 1.5 characters of the title are shown on load and the rest is uncovered from left to right on scroll, line by line if the title wraps. The page stays pinned at the top until the whole title is visible, then scrolls normally.
+* Requires PHP changed to 5.6.
+* Added review request (WordPress.org) on the Dashboard, dismissed site-wide
+
+= 1.4.4 march 20 2026
+* required php 5.8
+
+= 1.4.3 march 20 2026
+*Upload again same
+
+= 1.4.2 march 20 2026
+* Img file aspect ratio fixed
+
+= 1.4.1 Dec 23 2025
+* header image bug fixed after text domain
+
+= 1.4.0 Dec 23 2025
+* load text domain bug fixed
+
+= 1.3.9 August 20 2025
+top address default value syn
+
+= 1.3.8 June 12 2025
+tested up to 6.8
+
+= 1.3.7 April 9 2025
+* support upto wp 6.7.2
+
+= 1.3.6 jan 1 2025
+* support upto wp 6.7.1
+
+= 1.3.5 Sept 10 2024
+* if conditon on top address is removed
+
+= 1.3.4 August 16 2024
+* tested upto 6.6
+
+= 1.3.3 june 20 2024
+* smooth scrolling added.
+
+= 1.3.2 - Jun 15 2024 =
+* support upto 6.5 wordpress, icon added for block heading at sidebar
+
+= 1.3.1 - April 04 2024 =
 * while hiding top address and date, spaces are also hidden.
-* section 1 no post display fixed, section 2 no post cusmtoizer bug fixed.
+* all section no post display fixed
 
 = 1.3.0 - March 03 2024 =
 * twitter icon changed, Read More changed to Read more

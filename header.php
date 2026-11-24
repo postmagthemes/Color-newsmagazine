@@ -132,11 +132,9 @@
 						<?php endif;?>
 						<div class="float-right">
 							<!-- contact -->
-							<?php if(get_theme_mod('color_newsmagazine_top_header_right_side_enable')):?>
 							<ul class="date-time">
 									<?php color_newsmagazine_top_header_contact_info_items();?>
 							</ul>
-							<?php endif;?>
 							<!--/ End contact -->
 						</div>
 						<div class = "clearfix"> 

@@ -177,7 +177,9 @@ aside .single-sidebar.widget_tag_cloud ul,
 aside .single-sidebar.widget_recent_comments ul,
 aside .single-sidebar.widget_meta ul,
 aside .single-sidebar.widget_tag_cloud div,
-aside .single-sidebar.widget_media_video {
+aside .single-sidebar.widget_media_video,
+aside .single-sidebar.widget_block ul,
+aside .single-sidebar.widget_block ol {
 	padding: 15px;
 	box-shadow: 0 1px 3px rgba(0,0,0,0.15);
 
@@ -188,10 +190,19 @@ aside .single-sidebar.widget_archive ul li,
 aside .single-sidebar.widget_pages ul li,
 aside .single-sidebar.widget_tag_cloud ul li,
 aside .single-sidebar.widget_recent_comments ul li,
-aside .single-sidebar.widget_meta ul li {
+aside .single-sidebar.widget_meta ul li,
+aside .single-sidebar.widget_block ul li,
+aside .single-sidebar.widget_block ol li {
 	border-bottom: 1px solid rgb(223, 223, 223);
 	padding-top: 5px;
 	padding-bottom: 5px;
+}
+aside .wp-block-group .wp-block-group__inner-container {
+	padding: unset !important;
+}
+.mainbar .fas.fa-pencil-alt,
+.footer-top .fas.fa-pencil-alt {
+	display: none;
 }
 
 aside .single-sidebar.widget_block.widget_block  {
@@ -893,7 +904,8 @@ input:-webkit-autofill:hover {
 .widget-title {
 	color:#dd3333 ;
 }
-.cat-title span{
+.cat-title span,
+.mainbar .widget-title span{
 	padding: 0px 10px;
 	display:inline-block;
 	color:#dd3333 ;

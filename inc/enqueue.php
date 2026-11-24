@@ -103,6 +103,8 @@ function color_newsmagazine_scripts() {
 		wp_enqueue_script('color-newsmagazine-modal-js', get_template_directory_uri().'/assets/js/modal-ajax.js', array( 'jquery' ), '1.16.0', true);
 
 	endif;
+	// Register the Lenis script
+	wp_enqueue_script( 'lenis', get_template_directory_uri() . '/assets/js/lenis.js', array( 'jquery' ), '1.1.3', true );
 
 }
 add_action( 'wp_enqueue_scripts', 'color_newsmagazine_scripts' );

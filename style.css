@@ -4,9 +4,9 @@ Theme URI: https://www.postmagthemes.com/downloads/color-newsmagazine-free-wordp
 Author: postmagthemes
 Author URI: https://www.postmagthemes.com/
 Description: Color NewsMagazine is a free WordPress theme. It is designed to build a magazine and newspaper website. Its blog design is also suitable for a professional blogger who likes to have multi-variant colors on their website.  A unique feature of this theme is dynamically changeable highlighted color during each loading of your website.  Posts can be filtered by comments number, author, random date and recent date. Demo is here https://postmagthemes.com/democolornewsmagazine/ .
-Version: 1.3.0
+Version: 1.4.5
 Requires at least: 4.5
-Tested up to: 6.4
+Tested up to: 7.0
 Requires PHP: 5.6
 License: GNU General Public License v2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -22,6 +22,7 @@ Underscores is distributed under the terms of the GNU GPL v2 or later.
 Normalizing styles have been helped along thanks to the fine work of
 Nicolas Gallagher and Jonathan Neal https://necolas.github.io/normalize.css/
 */
+
 @keyframes fade-in-up {
 	0% {
 		opacity: 0;
@@ -4267,4 +4268,100 @@ footer.footer ul li.cat-item a,
 .header-bottom .date-time,
 .header .header-social {
 	margin-bottom: 0rem;
+}
+
+/* CSS added by Lenis smooth scrlling */
+html.lenis,
+html.lenis body {
+	height: auto;
+}
+
+.lenis.lenis-smooth {
+	scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+	overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+	overflow: hidden;
+}
+
+.lenis.lenis-smooth iframe {
+	pointer-events: none;
+}
+
+/* end */
+
+#blog .content img,
+#blog-archive .content img,
+#support_more-newslayout-1 img,
+.video-news .single-video img,
+.news-column .single-news img,
+.layout-13 .slick-sidebar-layout13 img {
+	width: 100%;
+	object-fit: cover;
+	aspect-ratio: 650 / 434;
+}
+
+#blog .blog-single-column img {
+	width: 100%;
+	object-fit: cover;
+	aspect-ratio: 950 / 475;
+}
+
+#blog .blog-list img,
+.news-big .single-news img {
+	width: 100%;
+	object-fit: cover;
+	aspect-ratio: 425 / 283;
+}
+
+#blog .blog-list img,
+.news-slider .slide-news img,
+.news-tabs .tab-pane .single-news.main img,
+#right-special-news img {
+	width: 100%;
+	object-fit: cover;
+	aspect-ratio: 430 / 287;
+}
+
+.news-tabs .tab-others .single-news.media img,
+.news-big .small-post img,
+aside .single-column .responsive-layout9 .single-news img,
+footer .single-footer img {
+	width: 100%;
+	object-fit: cover;
+	aspect-ratio: 122 / 122;
+}
+
+.news-grid img {
+	width: 100%;
+	object-fit: cover;
+	aspect-ratio: 625 / 400;
+}
+
+.news-column .small-post img {
+	width: 100%;
+	object-fit: cover;
+	aspect-ratio: 112 / 75
+}
+
+.news-carousel .single-carousel img,
+aside .news-style1 img {
+	width: 100%;
+	object-fit: cover;
+	aspect-ratio: 650 / 434;
+}
+
+.layout-13 .main img {
+	width: 100%;
+	object-fit: cover;
+	aspect-ratio: 730 / 487;
+}
+
+/* Header site title scroll reveal: the link is clipped from the right and uncovered while scrolling */
+.header-inner .site-title a.cnm-title-reveal {
+	display: inline-block;
 }
